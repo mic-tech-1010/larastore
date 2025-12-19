@@ -12,6 +12,9 @@ use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Contracts\LoginResponse;
+use Illuminate\Support\Facades\Auth;
+use App\Enums\RolesEnum;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -20,7 +23,21 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->instance(LoginResponse::class, new class implements LoginResponse {
+             public function toResponse($request)
+             {
+                $user = Auth::user();
+                $route = "/";
+                if($user->hasAnyRole([RolesEnum::Admin, RolesEnum::Vendor])) {
+                    return Inertia::location(route('filament.admin.pages.dashboard'));
+                }
+                else {
+                    $route = route('dashboard', absolute: false);
+                }
+
+                return redirect()->intended($route);
+             }
+        });
     }
 
     /**
