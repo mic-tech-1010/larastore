@@ -14,7 +14,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 
-class ProductVartiationTypes extends EditRecord
+class ProductVariationTypes extends EditRecord
 {
     protected static string $resource = ProductResource::class;
 

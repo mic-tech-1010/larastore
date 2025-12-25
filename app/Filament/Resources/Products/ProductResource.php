@@ -18,7 +18,8 @@ use Filament\Facades\Filament;
 use Filament\Pages\Enums\SubNavigationPosition;
 use Filament\Resources\Pages\Page;
 use App\Filament\Resources\Products\Pages\ProductImages;
-use App\Filament\Resources\Products\Pages\ProductVartiationTypes;
+use App\Filament\Resources\Products\Pages\ProductVariationTypes;
+use App\Filament\Resources\Products\Pages\ProductVariations;
 
 class ProductResource extends Resource
 {
@@ -52,7 +53,8 @@ class ProductResource extends Resource
             'create' => CreateProduct::route('/create'),
             'edit' => EditProduct::route('/{record}/edit'),
             'images' => ProductImages::route('/{record}/images'),
-            'variation-types' => ProductVartiationTypes::route('/{record}/variation-types'),
+            'variation-types' => ProductVariationTypes::route('/{record}/variation-types'),
+            'variations' => ProductVariations::route('/{record}/variations'),
         ];
     }
 
@@ -61,7 +63,8 @@ class ProductResource extends Resource
         return $page->generateNavigationItems([
             EditProduct::class,
             ProductImages::class,
-            ProductVartiationTypes::class
+            ProductVariationTypes::class,
+            ProductVariations::class
         ]);
     }
 
