@@ -22,6 +22,27 @@ export interface NavItem {
     isActive?: boolean;
 }
 
+export type Product = {
+  id: number;
+  title: string;
+  slug: string;
+  price: number;
+  quantity: number;
+  image:string;
+  user: {
+    id: number;
+    name: string;
+  };
+  department: {
+    id:number;
+    name: string;
+  };
+}
+
+export type PaginationProps<T> = {
+     data: Array<T>
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };

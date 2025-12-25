@@ -20,6 +20,7 @@ use Filament\Resources\Pages\Page;
 use App\Filament\Resources\Products\Pages\ProductImages;
 use App\Filament\Resources\Products\Pages\ProductVariationTypes;
 use App\Filament\Resources\Products\Pages\ProductVariations;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductResource extends Resource
 {
@@ -28,6 +29,11 @@ class ProductResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::QueueList;
 
     protected static ?SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->forVendor();
+    }
 
     public static function form(Schema $schema): Schema
     {
