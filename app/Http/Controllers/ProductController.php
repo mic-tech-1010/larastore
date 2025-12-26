@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductListResource;
 use Illuminate\Http\Request;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Laravel\Fortify\Features;
 use Inertia\Inertia;
@@ -24,6 +25,9 @@ class ProductController extends Controller
 
     public function show (Product $product)
     {
-
+       return Inertia::render('product/show', [
+            'product' => new ProductResource($product),
+            'variationOptions' => request('options', [])
+        ]);
     }
 }
