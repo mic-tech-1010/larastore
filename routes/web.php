@@ -8,6 +8,10 @@ Route::get('/', [ProductController::class, 'index'])->name('home');
 
 Route::get('/product/{product:slug}', [ProductController::class, 'show'])->name('product.show');
 
+Route::post('/cart/store/{product}', function() {
+
+})->name('cart.store');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');

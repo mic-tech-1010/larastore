@@ -27,7 +27,6 @@ export type Image = {
   id: number;
   thumb: string;
   small: string;
-  medium: string;
   large: string;
 }
 
