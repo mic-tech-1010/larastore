@@ -6,6 +6,11 @@ import { Product, VariationTypeOption } from "@/types"
 import { router, useForm, usePage } from "@inertiajs/react"
 import { useEffect, useMemo, useState } from "react"
 import { store } from "@/routes/cart"
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
+import { Input } from "@/components/ui/input"
 
 function show(
   {
@@ -125,7 +130,7 @@ function show(
       product.variationTypes.map((type, i: number) => (
         <div key={type.id}>
           <b>{type.name}</b>
-          {type.type === 'image' &&
+          {type.type === 'Image' &&
             <div className="flex gap-2 mb-4">
               {type.options.map(option => (
                 <div onClick={() => chooseOption(type.id, option)} key={option.id}>
@@ -138,19 +143,31 @@ function show(
               ))}
             </div>
           }
-          {type.type === 'radio' &&
+          {type.type === 'Radio' &&
             <div className="flex mb-4">
-               {type.options.map(option => (
-                <input onChange={() => chooseOption(type.id, option)}
-                key={option.id}
-                className=""
-                value={option.id}
-                type="radio"
-                checked={selectedOptions[type.id]?.id === option.id}
-                name={'variation_type_' + type.id}
-                aria-label={option.name}
-                />
-               ))}
+              {type.options.map(option => {
+                const isChecked =
+                  selectedOptions[type.id]?.id === option.id
+                return (
+                  <Button variant={"default"} tabIndex={0} className={`relative rounded-none border
+            ${isChecked
+                      ? "bg-blue-600 text-white border-blue-600 hover:bg-blue-500"
+                      : "bg-white text-gray-900 border-gray-300 hover:bg-gray-100"
+                    }`}>
+                    {option.name}
+                    <Input onChange={() => chooseOption(type.id, option)}
+                      key={option.id}
+                      className="absolute opacity-0 h-full w-full"
+                      value={option.id}
+                      type="radio"
+                      checked={selectedOptions[type.id]?.id === option.id}
+                      name={'variation_type_' + type.id}
+                      aria-label={option.name}
+                    />
+                  </Button>
+                )
+              })}
+
             </div>}
         </div>
       ))
@@ -159,16 +176,16 @@ function show(
 
   const renderAddToCartButton = () => {
     return (<div className="mb-8 flex gap-4">
-      <select value={form.data.quantity}
-              onChange={onQuantityChange}
-              className="w-full">
-             {Array.from({
-              length: Math.min(10, computedProduct.quantity)
-             }).map((el, i) => (
-              <option value={i + 1} key={i + 1}>Quantity: {i + 1} </option>
-             ))}
-      </select>
-      <Button onClick={addToCart} className="">Add to Cart</Button>
+      <NativeSelect value={form.data.quantity}
+        onChange={onQuantityChange}
+        className="w-full">
+        {Array.from({
+          length: Math.min(10, computedProduct.quantity)
+        }).map((el, i) => (
+          <NativeSelectOption value={i + 1} key={i + 1}>Quantity: {i + 1} </NativeSelectOption>
+        ))}
+      </NativeSelect>
+      <Button onClick={addToCart} className="bg-blue-600 text-white">Add to Cart</Button>
     </div>
 
     )
@@ -206,16 +223,15 @@ function show(
 
             {computedProduct.quantity != undefined &&
               computedProduct.quantity < 10 &&
-              <div className="text-error my-4">
+              <div className="text-red-300 text-sm my-4">
                 <span>Only {computedProduct.quantity} left</span>
               </div>
-
             }
 
             {renderAddToCartButton()}
 
             <b className="text-xl">About the Item</b>
-            <div dangerouslySetInnerHTML={{ __html: product.description }} />
+            <div className="ck-content-output" dangerouslySetInnerHTML={{ __html: product.description }} />
 
           </div>
         </div>
