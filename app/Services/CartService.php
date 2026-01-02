@@ -111,7 +111,7 @@ class CartService
                         'slug' => $product->slug,
                         'price' => $cartItem['price'],
                         'quantity' => $cartItem['quantity'],
-                        'option_ids' => $cartItems['option_ids'],
+                        'option_ids' => $cartItem['option_ids'],
                         'options' => $optionInfo,
                         'image' => $imageUrl ?: $product->getFirstMediaUrl('images', 'small'),
                         'user' => [
@@ -212,9 +212,11 @@ class CartService
 
     }
 
-    protected function saveItemToCookies(int $productId, int $quantity, $price, array $optionIds)
+    protected function saveItemToCookies(int $productId, int $quantity, int $price, array $optionIds)
     {
         $cartItems = $this->getCartItemsFromCookies();
+
+       // dd($cartItems, $productId, $quantity, $price, $optionIds);
 
         ksort($optionIds);
 

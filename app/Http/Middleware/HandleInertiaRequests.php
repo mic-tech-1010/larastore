@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\services\CartService;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -36,7 +37,14 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $cartService = app(CartService::class);
+
         [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
+
+        $totalQuantity = $cartService->getTotalQuantity();
+        $totalPrice = $cartService->getTotalPrice();
+
+        $cartItems = $cartService->getCartItems();
 
         return [
             ...parent::share($request),
@@ -46,6 +54,10 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'success' => session('success'),
+            'totalPrice' => $totalPrice,
+            'totalQuantity' => $totalQuantity,
+            'cartItems' => $cartItems
         ];
     }
 }

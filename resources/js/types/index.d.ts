@@ -71,6 +71,19 @@ export type Product = {
   }>
 }
 
+export type CartItem = {
+  id: number;
+  product_id: number;
+  title: string;
+  slug:string;
+  price: number;
+  quantity: number;
+  image: string;
+  images: image[];
+  option_ids: Record<string, number>;
+  options: VariationTypeOption[];
+}
+
 export type PaginationProps<T> = {
      data: Array<T>
 }
@@ -81,6 +94,9 @@ export interface SharedData {
     auth: Auth;
     sidebarOpen: boolean;
     [key: string]: unknown;
+    totalQuantity: number;
+    totalPrice: number;
+    cartItems: CartItem[];
 }
 
 export interface User {

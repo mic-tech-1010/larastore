@@ -71,7 +71,7 @@ function show(
   useEffect(() => {
     for (let type of product.variationTypes) {
       const selectedOptionId: number = variationOptions[type.id];
-      console.log(selectedOptionId, type.options)
+    //  console.log(selectedOptionId, type.options)
       chooseOption(
         type.id,
         type.options.find(op => op.id == selectedOptionId) || type.options[0],
@@ -149,14 +149,13 @@ function show(
                 const isChecked =
                   selectedOptions[type.id]?.id === option.id
                 return (
-                  <Button variant={"default"} tabIndex={0} className={`relative rounded-none border
+                  <Button variant={"default"} key={option.id} tabIndex={0} className={`relative rounded-none border
             ${isChecked
                       ? "bg-blue-600 text-white border-blue-600 hover:bg-blue-500"
                       : "bg-white text-gray-900 border-gray-300 hover:bg-gray-100"
                     }`}>
                     {option.name}
                     <Input onChange={() => chooseOption(type.id, option)}
-                      key={option.id}
                       className="absolute opacity-0 h-full w-full"
                       value={option.id}
                       type="radio"
@@ -199,7 +198,7 @@ function show(
           option.id
         ])
     )
-    console.log(idsMap)
+   // console.log(idsMap)
     form.setData('option_ids', idsMap)
   }, [selectedOptions]);
 
