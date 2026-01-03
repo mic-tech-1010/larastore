@@ -216,8 +216,6 @@ class CartService
     {
         $cartItems = $this->getCartItemsFromCookies();
 
-       // dd($cartItems, $productId, $quantity, $price, $optionIds);
-
         ksort($optionIds);
 
         $itemKey = $productId . '_' . json_encode($optionIds);
@@ -290,4 +288,20 @@ class CartService
 
         return $cartItems;
     }
+
+    public function getCartItemsGrouped(): array
+    {
+        $cartItems = $this->getCartItems();
+
+        return collect($cartItems)
+            ->groupBy(fn ($item) => $item['user']['id'])
+            ->map(fn ($items, $userId) => [
+               'user' => $items->first()['user'],
+               'items' => $items->toArray(),
+               'totalQuantity' => $items->sum('quantity'),
+               'totalPrice' => $items->sum(fn ($item) => $item['price'] * $item['quantity']),
+            ])
+            ->toArray();
+    }
+
 }
