@@ -19,6 +19,7 @@ function CartItem({ item }: { item: CartItemType }) {
 
   const [error, setError] = useState('');
 
+
   const onDeleteClick = () => {
     deleteForm.delete(CartController.destroy(item.product_id).url, {
       preserveScroll: true
@@ -83,9 +84,11 @@ function CartItem({ item }: { item: CartItemType }) {
             <Button variant={"ghost"} onClick={() => onDeleteClick()}>
                  Delete
             </Button>
+
             <Button variant={"ghost"}>
               Save for Later
             </Button>
+
               </div>
               <div className="font-bold text-lg">
                 <CurrencyFormatter amount={item.price * item.quantity} />

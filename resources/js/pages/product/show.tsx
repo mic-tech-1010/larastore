@@ -11,8 +11,9 @@ import {
   NativeSelectOption,
 } from "@/components/ui/native-select"
 import { Input } from "@/components/ui/input"
+import Layout from "@/layouts/app/page-layout"
 
-function show(
+function Show(
   {
     product,
     variationOptions
@@ -204,7 +205,7 @@ function show(
 
   return (
     <>
-      <div className="container mx-auto p-8">
+      <main className="container mx-auto p-8">
         <div className="grid gap-8 grid-cols-1 lg:grid-cols-12">
           <div className="col-span-7">
             <EmblaCarousel images={images} />
@@ -234,11 +235,15 @@ function show(
 
           </div>
         </div>
-      </div>
+      </main>
 
     </>
 
   )
 }
 
-export default show
+
+Show.layout = (page: React.ReactNode) => <Layout children={page} />
+
+
+export default Show

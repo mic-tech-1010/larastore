@@ -11,6 +11,7 @@ import { CreditCardIcon } from "lucide-react"
 import CurrencyFormatter from "@/components/app/currencyFormatter"
 import CartController from "@/actions/App/Http/Controllers/CartController"
 import CartItem from "@/components/custom/CartItem"
+import Layout from "@/layouts/app/page-layout"
 
 function Index({
   csrf_token,
@@ -19,7 +20,7 @@ function Index({
   totalPrice
 }: SharedData<{ cartItems: Record<number, GroupedCartItem> }>) {
   return (
-    <div className="mx-auto p-8 flex flex-col lg:flex-row gap-4">
+    <main className="mx-auto p-8 flex flex-col lg:flex-row gap-4">
       <Card>
         <CardHeader>
           <CardTitle>Shopping Cart</CardTitle>
@@ -69,8 +70,10 @@ function Index({
           </form>
         </CardContent>
       </Card>
-    </div>
+    </main>
   )
 }
+
+Index.layout = (page: React.ReactNode) => <Layout children={page} />
 
 export default Index
