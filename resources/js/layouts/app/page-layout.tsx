@@ -1,11 +1,9 @@
-import ProductItems from '@/components/custom/ProductItems';
 import { dashboard, login, register } from '@/routes';
 import { CartItem, PaginationProps, Product, type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import CartController from '@/actions/App/Http/Controllers/CartController';
-import ProductController from '@/actions/App/Http/Controllers/ProductController';
 import {
   Popover,
   PopoverContent,
@@ -13,6 +11,7 @@ import {
 } from "@/components/ui/popover"
 import { ShoppingCart } from 'lucide-react';
 import CurrencyFormatter from '@/components/app/currencyFormatter';
+import { productRoute } from '@/helpers';
 
 
 function Layout({
@@ -49,7 +48,7 @@ function Layout({
                   )}
                   {miniCartItems.map((item: CartItem) => (
                     <div key={item.id} className='flex gap-4 p-3'>
-                      <Link href={ProductController.show(item.slug)}>
+                      <Link href={productRoute(item)} className='w-12 flex justify-center self-start'>
                         <img
                           src={item.image}
                           alt={item.title}
@@ -58,7 +57,7 @@ function Layout({
                       </Link>
                       <div className='flex-1'>
                         <h3 className='mb-3 font-semibold'>
-                          <Link href={ProductController.show(item.slug)}>
+                          <Link href={productRoute(item)}>
                             {item.title}
                           </Link>
                         </h3>

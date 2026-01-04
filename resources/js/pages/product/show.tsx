@@ -5,7 +5,7 @@ import { arraysAreEqual } from "@/helpers"
 import { Product, VariationTypeOption } from "@/types"
 import { router, useForm, usePage } from "@inertiajs/react"
 import { useEffect, useMemo, useState } from "react"
-import { store } from "@/routes/cart"
+import CartController from "@/actions/App/Http/Controllers/CartController";
 import {
   NativeSelect,
   NativeSelectOption,
@@ -116,7 +116,7 @@ function Show(
   }
 
   const addToCart = () => {
-    form.post(store(product.id).url, {
+    form.post(CartController.store(product.id).url, {
       preserveScroll: true,
       preserveState: true,
       onError: (err) => {
