@@ -7,7 +7,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import { Button } from "../ui/button";
 import CurrencyFormatter from "../app/currencyFormatter";
 import CartController from "@/actions/App/Http/Controllers/CartController";

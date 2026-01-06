@@ -24,7 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::post('/cart/checkout', [CartController::class, 'checkout'])
-         ->name('cart.checkout');
+        ->name('cart.checkout');
 });
 
 require __DIR__ . '/settings.php';
