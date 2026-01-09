@@ -8,7 +8,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 import { ShoppingCart } from 'lucide-react';
 import CurrencyFormatter from '@/components/app/currencyFormatter';
 import { productRoute } from '@/helpers';
@@ -22,7 +22,7 @@ function Layout({
   children: React.ReactNode;
 }) {
 
-  const { auth, totalPrice, totalQuantity, miniCartItems } = usePage<SharedData>().props;
+  const { auth, totalPrice, totalQuantity, miniCartItems, error } = usePage<SharedData>().props;
 
   return (
     <>
@@ -111,6 +111,13 @@ function Layout({
           )}
         </nav>
       </header>
+
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">Error!</strong>
+          <span className="block sm:inline ml-2">{error}</span>
+        </div>
+      )}
 
       {children}
     </>

@@ -123,7 +123,7 @@ class CartController extends Controller
 
                     $lineItem = [
                         'price_data' => [
-                            'currency' => config('app.'),
+                            'currency' => strtolower(config('app.currency', 'USD')),
                             'product_data' => [
                                 'name' => $cartItem['title'],
                                 'images' => [$cartItem['image']],

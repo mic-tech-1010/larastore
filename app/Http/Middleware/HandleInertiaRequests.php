@@ -56,6 +56,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'success' => session('success'),
+            'error' => session('error'),
             'totalPrice' => $totalPrice,
             'totalQuantity' => $totalQuantity,
             'miniCartItems' => $cartItems

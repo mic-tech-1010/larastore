@@ -101,6 +101,8 @@ export type SharedData<
   name: string;
   quote: { message: string; author: string };
   csrf_token: string;
+  error: string;
+  success: string;
   auth: Auth;
   sidebarOpen: boolean;
   [key: string]: unknown;
