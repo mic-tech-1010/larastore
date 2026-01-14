@@ -156,10 +156,11 @@ class CartService
     protected function updateItemQuantityInDatabase(int $productId, int $quantity, array $optionIds): void
     {
         $userId = Auth::id();
+        ksort($optionIds);
 
         $cartItem = CartItem::where('user_id', $userId)
             ->where('product_id', $productId)
-            ->where('variation_type_option_ids', json_encode($optionIds))
+            ->whereJsonContains('variation_type_option_ids', $optionIds)
             ->first();
 
         if ($cartItem) {
@@ -193,7 +194,7 @@ class CartService
 
        $cartItem = CartItem::where('user_id', $userId)
             ->where('product_id', $productId)
-            ->where('variation_type_option_ids', json_encode($optionIds))
+            ->whereJsonContains('variation_type_option_ids', $optionIds)
             ->first();
 
         if ($cartItem) {
@@ -244,7 +245,7 @@ class CartService
 
         CartItem::where('user_id', $userId)
            ->where('product_id', $productId)
-           ->where('variation_type_option_ids', json_encode($optionIds))
+           ->whereJsonContains('variation_type_option_ids', $optionIds)
            ->delete();
     }
 
@@ -312,9 +313,12 @@ class CartService
        //Loop through the cart items and insert them into the database
        foreach ($cartItems as $itemKey => $cartItem) {
         // check if the cart item already exists for the user
+          $optionIds = $cartItem['option_ids'];
+          ksort($optionIds);
+
           $existingItem = CartItem::where('user_id', $userId)
           ->where('product_id', $cartItem['product_id'])
-          ->where('variation_type_option_ids', json_encode($cartItem['option_ids']))
+          ->whereJsonContains('variation_type_option_ids', $optionIds)
           ->first();
 
           if ($existingItem) {

@@ -10,6 +10,9 @@ use App\Models\CartItem;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Resources\OrderViewResource;
+use App\Mail\CheckoutCompleted;
+use App\Mail\NewOrderMail;
+use Illuminate\Support\Facades\Mail;
 
 class StripeController extends Controller
 {
@@ -64,11 +67,6 @@ class StripeController extends Controller
             return response()->json(['error' => 'Invalid signature'], 400);
         }
 
-        Log::info('======================');
-        Log::info('======================');
-        Log::info($event->type);
-        Log::info($event);
-
         //Handle the event
         switch ($event->type) {
             case 'charge.updated':
@@ -96,9 +94,15 @@ class StripeController extends Controller
                     $order->vendor_subtotal = $order->total_price - $order->online_payment_comission - $order->website_comission;
 
                     $order->save();
+
+                    // send email to vendor user
+
+                    Mail::to($order->vendorUser->email)->send(new NewOrderMail($order));
                 }
 
                 //send email to buyer
+
+                Mail::to($orders[0]->user)->send(new CheckoutCompleted($order));
 
             case 'checkout.session.completed':
                 $session = $event->data->object; // contains a \Stripe\Checkout\Session

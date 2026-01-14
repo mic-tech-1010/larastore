@@ -12,6 +12,7 @@ import {
 import { ShoppingCart } from 'lucide-react';
 import CurrencyFormatter from '@/components/app/currencyFormatter';
 import { productRoute } from '@/helpers';
+import { useEffect, useRef, useState } from 'react';
 
 
 function Layout({
@@ -22,7 +23,30 @@ function Layout({
   children: React.ReactNode;
 }) {
 
-  const { auth, totalPrice, totalQuantity, miniCartItems, error } = usePage<SharedData>().props;
+  const { auth, totalPrice, totalQuantity, miniCartItems, error, success } = usePage<SharedData>().props;
+
+  const [successMessages, setSuccessMessages] = useState<any[]>([]);
+  const timeoutRefs = useRef<{ [key: number]: ReturnType<typeof setTimeout> }>({});
+
+  useEffect(() => {
+    if (success?.message) {
+      const newMessage = {
+        ...success,
+        id: success.time
+      }
+
+      setSuccessMessages((prevMessages) => [ newMessage, ...prevMessages]);
+
+      const timeoutId = setTimeout(() => {
+        setSuccessMessages((prevMessages) =>
+          prevMessages.filter((msg) => msg.id !== newMessage.id)
+        );
+        delete timeoutRefs.current[newMessage.id];
+      }, 5000);
+
+      timeoutRefs.current[newMessage.id] = timeoutId;
+    }
+  }, [success]);
 
   return (
     <>
@@ -119,6 +143,20 @@ function Layout({
         </div>
       )}
 
+       {successMessages.length > 0 && (
+        <div className="fixed top-4 right-4 space-y-2 z-50">
+          {successMessages.map((msg) => (
+            <div
+              key={msg.id}
+              className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+              role="alert"
+            >
+              <strong className="font-bold">Success!</strong>
+              <span className="block sm:inline ml-2">{msg.message}</span>
+            </div>
+          ))}
+        </div>
+       )}
       {children}
     </>
 
