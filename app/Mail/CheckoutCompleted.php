@@ -17,7 +17,7 @@ class CheckoutCompleted extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public Collection $orders)
+    public function __construct(public $orders)
     {
         //
     }

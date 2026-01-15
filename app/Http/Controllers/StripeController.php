@@ -102,7 +102,7 @@ class StripeController extends Controller
 
                 //send email to buyer
 
-                Mail::to($orders[0]->user)->send(new CheckoutCompleted($order));
+                Mail::to($orders[0]->user)->send(new CheckoutCompleted($orders));
 
             case 'checkout.session.completed':
                 $session = $event->data->object; // contains a \Stripe\Checkout\Session

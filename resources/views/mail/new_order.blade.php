@@ -3,7 +3,6 @@
         Congratulations! You have a new Order
     </h1>
 
-
     <x-mail::button :url="$order->id">
         View Order Details
     </x-mail::button>
